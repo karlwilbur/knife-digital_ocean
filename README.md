@@ -23,13 +23,13 @@ This knife plugin uses the [digital_ocean](https://github.com/rmoriz/digital_oce
 
 This plugin provides the following sub-commands:
 
-* knife digital_ocean droplet create (options)   
+* knife digital_ocean server create (options)   
   **Creates a virtual machine with or without bootstrapping chef**
 
-* knife digital_ocean droplet destroy (options)  
+* knife digital_ocean server destroy (options)  
   **Destroys the virtual machine and its data**
 
-* knife digital_ocean droplet list (options)     
+* knife digital_ocean server list (options)     
   **Lists currently running virtual machines**
 
 * knife digital_ocean image list (options)       
@@ -69,7 +69,7 @@ use method **A**:
 __Example__
 
 ```shell
-➜ knife digital_ocean droplet create --server-name awesome-vm1.chef.io \
+➜ knife digital_ocean server create --server-name awesome-vm1.chef.io \
                                       --image 25306 \
                                       --location 2 \
                                       --size 66 \
@@ -81,7 +81,7 @@ __Example__
 __Syntax__
 
 ```shell
-➜ knife digital_ocean droplet create --server-name <FQDN> \
+➜ knife digital_ocean server create --server-name <FQDN> \
                                       --image <IMAGE ID> \
                                       --location <REGION ID> \
                                       --size <SIZE ID> \
@@ -93,7 +93,7 @@ __Syntax__
 __Short Syntax__
 
 ```shell
-➜ knife digital_ocean droplet create -N <FQDN> \
+➜ knife digital_ocean server create -N <FQDN> \
                                       -I <IMAGE ID> \
                                       -L <REGION ID> \
                                       -S <SIZE ID> \
@@ -111,7 +111,7 @@ This will create a droplet and run `knife solo bootstrap <IP>` equivalent for it
 __Example__
 
 ```bash
-➜ knife digital_ocean droplet create --server-name awesome-vm1.chef.io \
+➜ knife digital_ocean server create --server-name awesome-vm1.chef.io \
                                       --image 25306 \
                                       --location 2 \
                                       --size 66 \
@@ -126,7 +126,7 @@ This will just create a droplet and return its IP-address. Nothing else. You can
 __Example__
 
 ```bash
-➜ knife digital_ocean droplet create --server-name awesome-vm1.chef.io \
+➜ knife digital_ocean server create --server-name awesome-vm1.chef.io \
                                       --image 25306 \
                                       --location 2 \
                                       --size 66 \
@@ -136,7 +136,7 @@ __Example__
 ### List running droplets (servers)
 
 ```shell
-➜ knife digital_ocean droplet list
+➜ knife digital_ocean server list
 ID     Name                  Size   Region       IPv4            Image                            Status
 12345  app20.ams.nl.chef.io  1GB    Amsterdam 1  185.14.123.123  25306 (Ubuntu 12.10 x32 Server)  active
 23456  awesome-vm1.chef.io   512MB  Amsterdam 1  185.14.124.125  25306 (Ubuntu 12.10 x32 Server)  active
@@ -145,7 +145,7 @@ ID     Name                  Size   Region       IPv4            Image          
 ### Destroy a droplet (server) including all of its data!
 
 ```shell
-➜ knife digital_ocean droplet destroy -S 23456
+➜ knife digital_ocean server destroy -S 23456
 OK
 ```
 

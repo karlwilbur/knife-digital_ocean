@@ -31,7 +31,7 @@ describe Chef::Knife::DigitalOceanDropletCreate do
   let(:api_response) {
     {
       :status => 'OK',
-      :droplet => { :id => '123' }
+      :server => { :id => '123' }
     }
   }
 
@@ -57,7 +57,7 @@ describe Chef::Knife::DigitalOceanDropletCreate do
     describe 'should use the default bootstrap class' do
       let(:subject) {
         s = super()
-        s.client.stub_chain(:droplets, :create).and_return mock_api_response(api_response)
+        s.client.stub_chain(:servers, :create).and_return mock_api_response(api_response)
         s.stub!(:ip_address_available).and_return '123.123.123.123'
         s.stub!(:tcp_test_ssh).and_return true
         s
@@ -90,7 +90,7 @@ describe Chef::Knife::DigitalOceanDropletCreate do
 
       let(:subject) {
         s = super()
-        s.client.stub_chain(:droplets, :create).and_return mock_api_response(api_response)
+        s.client.stub_chain(:servers, :create).and_return mock_api_response(api_response)
         s.stub!(:ip_address_available).and_return '123.123.123.123'
         s.stub!(:tcp_test_ssh).and_return true
         s
@@ -113,8 +113,8 @@ describe Chef::Knife::DigitalOceanDropletCreate do
         Chef::Knife.send(:remove_const, :SoloBootstrap) if defined?(Chef::Knife::SoloBootstrap)
       end
 
-      it 'should not create a droplet' do
-        subject.client.should_not_receive(:droplets)
+      it 'should not create a server' do
+        subject.client.should_not_receive(:servers)
         lambda { subject.run }.should raise_error(SystemExit)
       end
     end
@@ -129,7 +129,7 @@ describe Chef::Knife::DigitalOceanDropletCreate do
     describe 'should not do any bootstrapping' do
       let(:subject) {
         s = super()
-        s.client.stub_chain(:droplets, :create).and_return mock_api_response(api_response)
+        s.client.stub_chain(:servers, :create).and_return mock_api_response(api_response)
         s.stub!(:ip_address_available).and_return '123.123.123.123'
         s.stub!(:tcp_test_ssh).and_return true
         s

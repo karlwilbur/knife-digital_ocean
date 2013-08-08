@@ -14,7 +14,7 @@ require 'chef/knife/digital_ocean_base'
 
 class Chef
   class Knife
-    class DigitalOceanDropletCreate < Knife
+    class DigitalOceanServerCreate < Knife
       include Knife::DigitalOceanBase
 
       deps do
@@ -27,7 +27,7 @@ class Chef
         Chef::Knife::SoloBootstrap.load_deps if defined? Chef::Knife::SoloBootstrap
       end
 
-      banner 'knife digital_ocean droplet create (options)'
+      banner 'knife digital_ocean server create (options)'
 
       option :server_name,
         :short       => '-N NAME',
@@ -68,7 +68,7 @@ class Chef
       option :bootstrap,
         :short       => '-B',
         :long        => '--bootstrap',
-        :description => 'Do a chef-client bootstrap on the created droplet (for use with chef-server)'
+        :description => 'Do a chef-client bootstrap on the created server (for use with chef-server)'
 
       option :solo,
         :long        => '--[no-]solo',
@@ -168,11 +168,11 @@ class Chef
                                           :ssh_key_ids => locate_config_value(:ssh_key_ids).join(','))
 
         if response.status != 'OK'
-          ui.error("Droplet could not be started #{response.inspect}")
+          ui.error("Server could not be started #{response.inspect}")
           exit 1
         end
 
-        puts "Droplet creation for #{locate_config_value(:server_name)} started. Droplet-ID is #{response.droplet.id}"
+        puts "Server creation for #{locate_config_value(:server_name)} started. Server-ID is #{response.droplet.id}"
 
         print ui.color("Waiting for IPv4-Address", :magenta)
         print(".") until ip_address = ip_address_available(response.droplet.id) {
