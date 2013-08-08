@@ -122,6 +122,10 @@ class Chef
         :proc        => Proc.new { |e| Chef::Config[:knife][:environment] = e },
         :default     => '_default'
 
+      option :secret_file,
+        :long        => "--secret-file FILE",
+        :description => "Path to encrypted data bag secret file"
+
       def run
         $stdout.sync = true
 
@@ -241,6 +245,7 @@ class Chef
         bootstrap.config[:use_sudo] = true unless config[:ssh_user] == 'root'
         bootstrap.config[:template_file] = locate_config_value(:template_file)
         bootstrap.config[:environment] = locate_config_value(:environment)
+        bootstrap.config[:secret_file] = locate_config_value(:secret_file)
         bootstrap
       end
 
