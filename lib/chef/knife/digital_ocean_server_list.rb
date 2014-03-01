@@ -14,10 +14,10 @@ require 'chef/knife/digital_ocean_base'
 
 class Chef
   class Knife
-    class DigitalOceanDropletList < Knife
+    class DigitalOceanServerList < Knife
       include Knife::DigitalOceanBase
 
-      banner 'knife digital_ocean droplet list (options)'
+      banner 'knife digital_ocean server list (options)'
 
       def run
         $stdout.sync = true

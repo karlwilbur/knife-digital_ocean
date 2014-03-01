@@ -14,7 +14,7 @@ require 'chef/knife/digital_ocean_base'
 
 class Chef
   class Knife
-    class DigitalOceanDropletCreate < Knife
+    class DigitalOceanServerCreate < Knife
       include Knife::DigitalOceanBase
 
       deps do
@@ -27,7 +27,7 @@ class Chef
         Chef::Knife::SoloBootstrap.load_deps if defined? Chef::Knife::SoloBootstrap
       end
 
-      banner 'knife digital_ocean droplet create (options)'
+      banner 'knife digital_ocean server create (options)'
 
       option :server_name,
         :short       => '-N NAME',
@@ -68,7 +68,7 @@ class Chef
       option :bootstrap,
         :short       => '-B',
         :long        => '--bootstrap',
-        :description => 'Do a chef-client bootstrap on the created droplet (for use with chef-server)'
+        :description => 'Do a chef-client bootstrap on the created server (for use with chef-server)'
 
       option :solo,
         :long        => '--[no-]solo',
@@ -122,6 +122,10 @@ class Chef
         :proc        => Proc.new { |e| Chef::Config[:knife][:environment] = e },
         :default     => '_default'
 
+      option :secret_file,
+        :long        => "--secret-file FILE",
+        :description => "Path to encrypted data bag secret file"
+
       option :json_attributes,
         :short       => '-j JSON',
         :long        => '--json-attributes JSON',
@@ -174,11 +178,11 @@ class Chef
                                           :ssh_key_ids => locate_config_value(:ssh_key_ids).join(','))
 
         if response.status != 'OK'
-          ui.error("Droplet could not be started #{response.inspect}")
+          ui.error("Server could not be started #{response.inspect}")
           exit 1
         end
 
-        puts "Droplet creation for #{locate_config_value(:server_name)} started. Droplet-ID is #{response.droplet.id}"
+        puts "Server creation for #{locate_config_value(:server_name)} started. Server-ID is #{response.droplet.id}"
 
         unless !config.has_key?(:json_attributes) || config[:json_attributes].empty?
           puts ui.color("JSON Attributes: #{config[:json_attributes]}", :magenta)
@@ -251,6 +255,7 @@ class Chef
         bootstrap.config[:use_sudo] = true unless config[:ssh_user] == 'root'
         bootstrap.config[:template_file] = locate_config_value(:template_file)
         bootstrap.config[:environment] = locate_config_value(:environment)
+        bootstrap.config[:secret_file] = locate_config_value(:secret_file)
         bootstrap.config[:first_boot_attributes] = locate_config_value(:json_attributes) || {}
         bootstrap
       end

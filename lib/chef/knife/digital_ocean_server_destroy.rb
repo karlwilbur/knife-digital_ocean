@@ -14,10 +14,10 @@ require 'chef/knife/digital_ocean_base'
 
 class Chef
   class Knife
-    class DigitalOceanDropletDestroy < Knife
+    class DigitalOceanServerDestroy < Knife
       include Knife::DigitalOceanBase
 
-      banner 'knife digital_ocean droplet destroy (options)'
+      banner 'knife digital_ocean server destroy (options)'
 
       option :server,
         :short       => '-S ID',
